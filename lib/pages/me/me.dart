@@ -43,7 +43,8 @@ class _MeState extends State<Me>
 
   Future _delCurrency(CurrencyModel item) async {
     Loading.showLoading(context);
-    await LocalStorage.removeTokenFromList(item.toJson());
+    await LocalStorage.removeTokenFromList(
+        store.settings?.endpoint.info.toUpperCase() ?? "DICO", item.toJson());
     await store.dico?.getTokens();
     webApi!.dico!.subTokensBalanceChange();
     Loading.hideLoading(context);
@@ -116,7 +117,8 @@ class _MeState extends State<Me>
                                             children: [
                                               Text(
                                                 store.account?.currentAccount
-                                                    .name??"",
+                                                        .name ??
+                                                    "",
                                                 style: TextStyle(
                                                   color: Colors.white,
                                                   fontSize: Adapt.px(29),

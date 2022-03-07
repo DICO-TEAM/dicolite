@@ -49,7 +49,6 @@ class Api {
   }
 
   _setSubBalance(Map balanceData) {
-   
     store.assets!.setAccountBalances(
         balanceData['pubKey'],
         Map.of({
@@ -59,7 +58,6 @@ class Api {
   }
 
   _setSubTokensBalance(List res) {
-   
     List<CurrencyModel> list = [];
     for (var i = 0; i < res.length; i++) {
       CurrencyModel item = store.dico!.tokens![i];
@@ -70,7 +68,6 @@ class Api {
   }
 
   _setSubtokensInLPBalance(List res) {
-   
     List<CurrencyModel> list =
         res.map((e) => CurrencyModel.fromJson(e)).toList();
 
@@ -78,7 +75,6 @@ class Api {
   }
 
   _setSubLiquidityListChange(List? res) {
-   
     if (res != null) {
       List<LiquidityModel> list =
           res.map((e) => LiquidityModel.fromList(e)).toList();
@@ -95,7 +91,6 @@ class Api {
   }
 
   _setSubLbpPoolsChange(List? res) async {
-   
     if (res != null) {
       Set<String> notInTokensLpIds = Set();
       res.forEach((json) {
@@ -124,7 +119,6 @@ class Api {
   }
 
   _setSubFarmPoolsChange(List? res) async {
-  
     if (res != null &&
         store.dico!.liquidityList != null &&
         store.dico!.liquidityList!.isNotEmpty) {
@@ -166,7 +160,6 @@ class Api {
   }
 
   _setSubFarmPoolExtendsChange(List? res) async {
-  
     if (res != null &&
         store.dico!.liquidityList != null &&
         store.dico!.liquidityList!.isNotEmpty) {
@@ -288,7 +281,6 @@ class Api {
 
     var _jsCode = await DefaultAssetBundle.of(context)
         .loadString('lib/polkadot_js_service/dist/main.js');
-   
 
     if (_web == null) {
       _web = new HeadlessInAppWebView(
@@ -425,6 +417,7 @@ class Api {
   Future<void> changeNode() async {
     store.settings!.setNetworkLoading(true);
     store.dico!.clearState();
+    await store.dico!.getTokens();
     await _web?.dispose();
     _web = null;
     launchWebview();

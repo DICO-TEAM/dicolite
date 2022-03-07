@@ -39,22 +39,22 @@ class LocalStorage {
     return storage.getKV(customTypesKey);
   }
 
-  static Future<void> updateTokenToList(Map<String, dynamic> token) async {
+  static Future<void> updateTokenToList(String tokenSymbol,Map<String, dynamic> token) async {
     return await storage.updateItemInList(
-        tokensKey, 'currencyId', token['currencyId'], token);
+        tokensKey+tokenSymbol, 'currencyId', token['currencyId'], token);
   }
 
-  static Future<void> removeTokenFromList(Map<String, dynamic> token) async {
+  static Future<void> removeTokenFromList(String tokenSymbol,Map<String, dynamic> token) async {
     return await storage.removeItemFromList(
-        tokensKey, 'currencyId', token['currencyId']);
+        tokensKey+tokenSymbol, 'currencyId', token['currencyId']);
   }
 
-  Future<void> setTokens(List<Map<String, dynamic>>? val) async {
-    return await storage.setKV(tokensKey, jsonEncode(val));
+  Future<void> setTokens(String tokenSymbol,List<Map<String, dynamic>>? val) async {
+    return await storage.setKV(tokensKey+tokenSymbol, jsonEncode(val));
   }
 
-  Future<List<Map<String, dynamic>>?> getTokens() async {
-    return storage.getList(tokensKey);
+  Future<List<Map<String, dynamic>>?> getTokens(String tokenSymbol) async {
+    return storage.getList(tokensKey+tokenSymbol);
   }
 
   Future<void> setMyNftList(List<Map<String, dynamic>>? val) async {

@@ -38,7 +38,9 @@ abstract class _DicoStoreBase with Store {
     tokens = list == null
         ? ObservableList<CurrencyModel>()
         : ObservableList.of(list);
-    rootStore.localStorage.setTokens(list?.map((e) => e.toJson()).toList());
+    rootStore.localStorage.setTokens(
+        rootStore.settings?.endpoint.info.toUpperCase() ?? "DICO",
+        list?.map((e) => e.toJson()).toList());
   }
 
   @computed
@@ -110,7 +112,8 @@ abstract class _DicoStoreBase with Store {
 
   @action
   Future getTokens() async {
-    List<Map<String, dynamic>>? res = await rootStore.localStorage.getTokens();
+    List<Map<String, dynamic>>? res = await rootStore.localStorage
+        .getTokens(rootStore.settings?.endpoint.info.toUpperCase() ?? "DICO");
     if (res != null) {
       List<CurrencyModel> list =
           res.map((e) => CurrencyModel.fromJson(e)).toList();
@@ -256,8 +259,6 @@ abstract class _DicoStoreBase with Store {
     return null;
   }
 
-
-
   /// farmRuleData
   @observable
   FarmRuleDataModel? farmRuleData;
@@ -279,7 +280,6 @@ abstract class _DicoStoreBase with Store {
     }
     return null;
   }
-
 
   /// farmPoolsExtend List
   @observable

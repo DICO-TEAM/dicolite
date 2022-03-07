@@ -12,7 +12,6 @@ import 'package:dicolite/widgets/my_appbar.dart';
 import 'package:dicolite/widgets/no_data.dart';
 import 'package:flutter/material.dart';
 
-
 class FindToken extends StatefulWidget {
   static const route = '/me/FindToken';
   FindToken(this.store);
@@ -52,14 +51,14 @@ class _FindTokenState extends State<FindToken> {
   }
 
   Future _submit(CurrencyModel currency) async {
-   
-      Loading.showLoading(context);
-      await LocalStorage.updateTokenToList(currency.toJson());
-      await store.dico?.getTokens();
-      webApi!.dico!.subTokensBalanceChange();
-      Loading.hideLoading(context);
-      Navigator.of(context).pop();
-   
+    Loading.showLoading(context);
+    await LocalStorage.updateTokenToList(
+        store.settings?.endpoint.info.toUpperCase() ?? "DICO",
+        currency.toJson());
+    await store.dico?.getTokens();
+    webApi!.dico!.subTokensBalanceChange();
+    Loading.hideLoading(context);
+    Navigator.of(context).pop();
   }
 
   @override
@@ -78,7 +77,10 @@ class _FindTokenState extends State<FindToken> {
       return LoadingWidget();
     }
     listFilter = list!
-        .where((e) => e.currencyId!="0"&&(e.symbol.toUpperCase() + e.currencyId).contains(_searchCtrl.text.trim().toUpperCase()))
+        .where((e) =>
+            e.currencyId != "0" &&
+            (e.symbol.toUpperCase() + e.currencyId)
+                .contains(_searchCtrl.text.trim().toUpperCase()))
         .toList();
     listFilter
         .sort((a, b) => (int.parse(a.currencyId) - int.parse(b.currencyId)));
@@ -104,8 +106,6 @@ class _FindTokenState extends State<FindToken> {
               isDense: true,
             ),
             onChanged: (v) {
-             
-
               if (v.trim().isEmpty) {
                 setState(() {
                   listFilter = list!;
@@ -137,8 +137,11 @@ class _FindTokenState extends State<FindToken> {
                         ),
                         trailing: listFilter[index].hasAdded
                             ? Icon(Icons.check_circle_outline)
-                            : Icon(Icons.add_circle_outline,color: Theme.of(context).primaryColor,),
-                        onTap: ()=>_submit(listFilter[index]),
+                            : Icon(
+                                Icons.add_circle_outline,
+                                color: Theme.of(context).primaryColor,
+                              ),
+                        onTap: () => _submit(listFilter[index]),
                       );
                     }),
               ),
