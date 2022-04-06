@@ -147,7 +147,7 @@ class _ManageLbp extends State<ManageLbp> {
                                                   width: 4,
                                                 ),
                                                 Logo(
-                                                    symbol: e.afsToken.symbol,
+                                                    currencyId: e.afsToken.currencyId,
                                                     size: 25)
                                               ],
                                             ),
@@ -167,8 +167,8 @@ class _ManageLbp extends State<ManageLbp> {
                                                   width: 4,
                                                 ),
                                                 Logo(
-                                                    symbol: e.fundraisingToken
-                                                        .symbol,
+                                                    currencyId: e.fundraisingToken
+                                                        .currencyId,
                                                     size: 25)
                                               ],
                                             ),

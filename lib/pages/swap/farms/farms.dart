@@ -148,7 +148,7 @@ class _Farms extends State<Farms> {
                                                       MainAxisAlignment
                                                           .spaceBetween,
                                                   children: [
-                                                    Logo(symbol: e.symbol),
+                                                    Logo(currencyId: e.isLP?e.liquidity!.liquidityId:e.currencyId),
                                                     Text(
                                                       e.symbol,
                                                       style: valStyle,

@@ -96,7 +96,7 @@ class _IcoState extends State<Ico>
                                       Row(
                                         children: [
                                           Logo(
-                                            symbol: e.tokenSymbol,
+                                            currencyId: e.currencyId,
                                           ),
                                           SizedBox(
                                             width: 5,

@@ -99,7 +99,7 @@ class _SelectTokenState extends State<SelectToken> {
                           itemBuilder: (BuildContext context, int index) {
                             return ListTile(
                               minVerticalPadding: 22,
-                              leading: Logo(symbol: listFilter[index].symbol),
+                              leading: Logo(currencyId: listFilter[index].currencyId),
                               title: Text(listFilter[index].symbol),
                               subtitle: Text(
                                 "ID: " + listFilter[index].currencyId,

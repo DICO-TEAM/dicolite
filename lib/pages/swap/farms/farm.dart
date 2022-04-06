@@ -332,7 +332,7 @@ class _Farm extends State<Farm> with TickerProviderStateMixin {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Logo(symbol: pool!.symbol),
+                            Logo(currencyId: pool!.isLP?pool!.liquidity!.liquidityId:pool!.currencyId),
                             Text(
                               pool!.symbol,
                               style: valStyle,

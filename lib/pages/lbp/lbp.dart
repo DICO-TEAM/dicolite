@@ -151,8 +151,8 @@ class _LbpState extends State<Lbp>
                                                         width: 4,
                                                       ),
                                                       Logo(
-                                                          symbol:
-                                                              e.afsToken.symbol,
+                                                          currencyId:
+                                                              e.afsToken.currencyId,
                                                           size: 25)
                                                     ],
                                                   ),
@@ -173,9 +173,9 @@ class _LbpState extends State<Lbp>
                                                         width: 4,
                                                       ),
                                                       Logo(
-                                                          symbol: e
+                                                          currencyId: e
                                                               .fundraisingToken
-                                                              .symbol,
+                                                              .currencyId,
                                                           size: 25)
                                                     ],
                                                   ),

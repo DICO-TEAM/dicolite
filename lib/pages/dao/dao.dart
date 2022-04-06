@@ -128,8 +128,8 @@ class _DaoState extends State<Dao> with AutomaticKeepAliveClientMixin {
                                                   Row(
                                                     children: [
                                                       Logo(
-                                                        symbol:
-                                                            e.ico!.tokenSymbol,
+                                                        currencyId:
+                                                            e.ico!.currencyId,
                                                       ),
                                                       SizedBox(
                                                         width: 5,

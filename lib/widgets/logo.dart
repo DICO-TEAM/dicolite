@@ -1,17 +1,18 @@
 import 'package:dicolite/config/config.dart';
+import 'package:dicolite/store/app.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class Logo extends StatelessWidget {
-  const Logo({this.logoUrl, this.symbol, this.size, Key? key})
+  const Logo({this.logoUrl, this.currencyId, this.size, Key? key})
       : super(key: key);
   final String? logoUrl;
-  final String? symbol;
+  final String? currencyId;
 
   final double? size;
 
-  Widget _buildWidget(String? symbolUsed) {
-    if (logoUrl == null && (symbolUsed == null || symbolUsed.isEmpty)) {
+  Widget _buildWidget(String? currencyIdUsed) {
+    if (logoUrl == null && (currencyIdUsed == null || currencyIdUsed.isEmpty)) {
       return emptyWidget();
     }
     return CachedNetworkImage(
@@ -19,13 +20,17 @@ class Logo extends StatelessWidget {
       height: size ?? 35,
       fit: BoxFit.cover,
       imageUrl: logoUrl ??
-          (Config.logoCDN + (symbolUsed?.toUpperCase() ?? '') + ".png"),
+          (Config.logoCDN +
+              (globalAppStore.settings?.endpoint.info.toUpperCase() == 'KICO'
+                  ? "KICO"
+                  : "TICO") +
+              "/$currencyIdUsed.png"),
       placeholder: (context, url) => emptyWidget(),
       errorWidget: (context, url, error) => emptyWidget(),
     );
   }
 
-  Widget _logo1(String? symbol) {
+  Widget _logo1(String? currencyId) {
     return Container(
       decoration: BoxDecoration(
           color: Colors.white,
@@ -35,14 +40,14 @@ class Logo extends StatelessWidget {
           borderRadius: BorderRadius.circular(size ?? 35)),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(size ?? 35),
-        child: _buildWidget(symbol),
+        child: _buildWidget(currencyId),
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    if (logoUrl == null && symbol == null) {
+    if (logoUrl == null && currencyId == null) {
       return Container(
         width: size ?? 35,
         height: size ?? 35,
@@ -55,9 +60,16 @@ class Logo extends StatelessWidget {
       );
     }
 
-    if (symbol != null && symbol!.contains("-")) {
+    if (currencyId != null &&
+        BigInt.parse(currencyId!) >= (Config.liquidityFirstId)) {
       /// liquidity 2 logo
-      List list = symbol!.split("-");
+      List<String> list = [];
+      var index = globalAppStore.dico?.liquidityList
+              ?.indexWhere((e) => e.liquidityId == currencyId) ??
+          -1;
+      if (index != -1) {
+        list = globalAppStore.dico!.liquidityList![index].currencyIds;
+      }
       return Container(
         child: Stack(
           alignment: AlignmentDirectional.centerStart,
@@ -71,7 +83,7 @@ class Logo extends StatelessWidget {
         ),
       );
     }
-    return _logo1(symbol);
+    return _logo1(currencyId);
   }
 
   Widget emptyWidget() {

@@ -520,7 +520,8 @@ class _MeState extends State<Me>
                                                       .pushNamed(
                                                           TokenAsset.route,
                                                           arguments: e),
-                                          leading: Logo(symbol: e.symbol),
+                                          leading:
+                                              Logo(currencyId: e.currencyId),
                                           title: Text(
                                             e.symbol,
                                             style: Theme.of(context)

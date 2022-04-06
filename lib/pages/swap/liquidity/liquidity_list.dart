@@ -71,7 +71,7 @@ class _LiquidityListState extends State<LiquidityList> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Logo(
-                                    symbol: e.symbol,
+                                    currencyId: e.liquidityId,
                                   ),
                                   Text(e.symbol),
                                   TextButton(
@@ -109,7 +109,7 @@ class _LiquidityListState extends State<LiquidityList> {
                                                     width: 5,
                                                   ),
                                                   Logo(
-                                                    symbol: e.symbol1,
+                                                    currencyId: e.currencyId1,
                                                     size: 25,
                                                   ),
                                                 ],
@@ -137,7 +137,7 @@ class _LiquidityListState extends State<LiquidityList> {
                                                     width: 5,
                                                   ),
                                                   Logo(
-                                                    symbol: e.symbol2,
+                                                    currencyId: e.currencyId2,
                                                     size: 25,
                                                   ),
                                                 ],
@@ -198,7 +198,7 @@ class _LiquidityListState extends State<LiquidityList> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Logo(
-                                      symbol: e.liquidity.symbol,
+                                      currencyId: e.liquidity.liquidityId,
                                     ),
                                     Text(e.liquidity.symbol),
                                     TextButton(
@@ -255,8 +255,8 @@ class _LiquidityListState extends State<LiquidityList> {
                                                       width: 5,
                                                     ),
                                                     Logo(
-                                                      symbol:
-                                                          e.liquidity.symbol1,
+                                                      currencyId:
+                                                          e.liquidity.currencyId1,
                                                       size: 25,
                                                     ),
                                                   ],
@@ -286,8 +286,8 @@ class _LiquidityListState extends State<LiquidityList> {
                                                       width: 5,
                                                     ),
                                                     Logo(
-                                                      symbol:
-                                                          e.liquidity.symbol2,
+                                                      currencyId:
+                                                          e.liquidity.currencyId2,
                                                       size: 25,
                                                     ),
                                                   ],

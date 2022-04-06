@@ -475,7 +475,7 @@ class _LiquidityState extends State<Liquidity> {
                           ),
                           onPressed: _token1Select,
                           icon: Logo(
-                            symbol: token1!.symbol,
+                            currencyId: token1!.currencyId,
                             size: 25,
                           ),
                           label: Text(token1!.symbol),
@@ -582,7 +582,7 @@ class _LiquidityState extends State<Liquidity> {
                           ),
                           onPressed: _token2Select,
                           icon: Logo(
-                            symbol: token2!.symbol,
+                            currencyId: token2!.currencyId,
                             size: 25,
                           ),
                           label: Text(token2!.symbol),

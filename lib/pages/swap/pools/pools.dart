@@ -158,8 +158,8 @@ class _Pools extends State<Pools> {
                                                         ),
                                                         SizedBox(width: 4),
                                                         Logo(
-                                                            symbol:
-                                                                e.rewardSymbol),
+                                                            currencyId:
+                                                                e.isRewardLP?e.rewardLiquidity!.liquidityId:e.rewardCurrencyId),
                                                       ],
                                                     ),
                                                   ],
@@ -182,8 +182,8 @@ class _Pools extends State<Pools> {
                                                         ),
                                                         SizedBox(width: 4),
                                                         Logo(
-                                                            symbol:
-                                                                e.stakeSymbol),
+                                                            currencyId:
+                                                                e.isStakeLP?e.stakeLiquidity!.liquidityId:e.stakeCurrencyId),
                                                       ],
                                                     ),
                                                   ],

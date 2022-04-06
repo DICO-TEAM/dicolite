@@ -183,7 +183,7 @@ class _DaoVote extends State<DaoVote> {
                           Expanded(
                             child: Row(
                               children: [
-                                Logo(symbol: proposal.ico!.tokenSymbol),
+                                Logo(currencyId: proposal.ico!.currencyId),
                                 SizedBox(
                                   width: 5,
                                 ),

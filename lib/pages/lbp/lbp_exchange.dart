@@ -310,7 +310,7 @@ class _LbpExchange extends State<LbpExchange> {
                                   children: [
                                     Logo(
                                       size: 25,
-                                      symbol: tokenPay!.symbol,
+                                      currencyId: tokenPay!.currencyId,
                                     ),
                                     SizedBox(
                                       width: 6,
@@ -355,7 +355,7 @@ class _LbpExchange extends State<LbpExchange> {
                                   children: [
                                     Logo(
                                       size: 25,
-                                      symbol: tokenReceive!.symbol,
+                                      currencyId: tokenReceive!.currencyId,
                                     ),
                                     SizedBox(
                                       width: 6,
@@ -904,7 +904,7 @@ class _LbpExchange extends State<LbpExchange> {
                                               ),
                                               onPressed: () {},
                                               icon: Logo(
-                                                symbol: tokenPay!.symbol,
+                                                currencyId: tokenPay!.currencyId,
                                                 size: 25,
                                               ),
                                               label: Text(
@@ -1016,7 +1016,7 @@ class _LbpExchange extends State<LbpExchange> {
                                               ),
                                               onPressed: () {},
                                               icon: Logo(
-                                                symbol: tokenReceive!.symbol,
+                                                currencyId: tokenReceive!.currencyId,
                                                 size: 25,
                                               ),
                                               label: Text(

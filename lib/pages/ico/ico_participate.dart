@@ -501,7 +501,7 @@ class _IcoParticipate extends State<IcoParticipate> {
                                       child: Row(
                                         children: [
                                           Logo(
-                                            symbol: ico!.tokenSymbol,
+                                            currencyId: ico!.currencyId,
                                           ),
                                           SizedBox(
                                             width: 5,
