@@ -228,7 +228,7 @@ class _ROICalculatorState extends State<ROICalculator> {
                             isDense: true,
                           ),
                           inputFormatters: [
-                            UI.decimalInputFormatter(Config.kUSDDecimals)
+                            UI.decimalInputFormatter(Config.USDtokenDecimals)
                           ],
                           onChanged: (v) {
                             _computeProfit();

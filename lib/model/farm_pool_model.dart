@@ -57,7 +57,7 @@ class FarmPoolModel {
         totalFarmAllocPoint == null ||
         totalFarmAllocPoint == 0 ||
         liquidityList
-                .indexWhere((e) => e.currencyIds.contains(Config.kUSDid)) ==
+                .indexWhere((e) => e.currencyIds.contains(Config.USDtokenId)) ==
             -1) {
       return null;
     }
@@ -78,7 +78,7 @@ class FarmPoolModel {
     List<LiquidityModel> liquidityList,
   ) {
     if (liquidityList
-            .indexWhere((e) => e.currencyIds.contains(Config.kUSDid)) ==
+            .indexWhere((e) => e.currencyIds.contains(Config.USDtokenId)) ==
         -1) {
       return null;
     }
@@ -90,13 +90,13 @@ class FarmPoolModel {
       }
       Decimal percent = Decimal.fromBigInt(totalAmount) /
           Decimal.fromBigInt(liquidity!.totalIssuance);
-      if (liquidity!.currencyIds.contains(Config.kUSDid)) {
-        BigInt amountUSDT = liquidity!.currencyId1 == Config.kUSDid
+      if (liquidity!.currencyIds.contains(Config.USDtokenId)) {
+        BigInt amountUSDT = liquidity!.currencyId1 == Config.USDtokenId
             ? liquidity!.token1Amount
             : liquidity!.token2Amount;
         farmPoolAmountUsd = Decimal.fromInt(2) *
             percent *
-            Fmt.bigIntToDecimal(amountUSDT, Config.kUSDDecimals);
+            Fmt.bigIntToDecimal(amountUSDT, Config.USDtokenDecimals);
       } else {
         Decimal? token1AmountUsd = calcuteTokenValOfUsd(
             liquidityList,
@@ -124,7 +124,7 @@ class FarmPoolModel {
       }
     } else {
       /// one token pool
-      if (token!.currencyId == Config.kUSDid) {
+      if (token!.currencyId == Config.USDtokenId) {
         farmPoolAmountUsd = Fmt.bigIntToDecimal(totalAmount, token!.decimals);
       } else {
         farmPoolAmountUsd = calcuteTokenValOfUsd(
@@ -182,7 +182,7 @@ class FarmPoolModel {
     List<List> liquidityIdsList =
         liquidityList.map((e) => e.currencyIds).toList();
     List path = Dijkstra.findPathFromPairsList(
-        liquidityIdsList, tokenInCurrencyId, Config.kUSDid);
+        liquidityIdsList, tokenInCurrencyId, Config.USDtokenId);
 
     if (BigInt.parse(tokenInCurrencyId) > Config.liquidityFirstId) {
       return null;

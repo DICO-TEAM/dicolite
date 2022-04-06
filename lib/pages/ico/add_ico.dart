@@ -509,10 +509,10 @@ class _AddIco extends State<AddIco> {
               if (val.length == 0) {
                 return dic.required;
               } else if (_minUsdt != null &&
-                  Fmt.tokenInt(val, Config.kUSDDecimals) < _minUsdt!) {
+                  Fmt.tokenInt(val, Config.USDtokenDecimals) < _minUsdt!) {
                 return dic.amount_too_low +
                     "; >" +
-                    Fmt.token(_minUsdt, Config.kUSDDecimals);
+                    Fmt.token(_minUsdt, Config.USDtokenDecimals);
               }
 
               return null;
@@ -544,10 +544,10 @@ class _AddIco extends State<AddIco> {
                       BigInt.parse(val)) {
                 return dic.userMaxAmountError;
               } else if (_maxUsdt != null &&
-                  Fmt.tokenInt(val, Config.kUSDDecimals) > _maxUsdt!) {
+                  Fmt.tokenInt(val, Config.USDtokenDecimals) > _maxUsdt!) {
                 return dic.amount_too_high +
                     "; <" +
-                    Fmt.token(_maxUsdt, Config.kUSDDecimals);
+                    Fmt.token(_maxUsdt, Config.USDtokenDecimals);
               }
 
               return null;
@@ -785,10 +785,10 @@ class _AddIco extends State<AddIco> {
                       totalIcoAmountCtrl.text.trim(), currency!.decimals)
                   .toString(),
               "userMinAmount": Fmt.tokenInt(
-                      userMinAmountCtrl.text.trim(), Config.kUSDDecimals)
+                      userMinAmountCtrl.text.trim(), Config.USDtokenDecimals)
                   .toString(),
               "userMaxAmount": Fmt.tokenInt(
-                      userMaxAmountCtrl.text.trim(), Config.kUSDDecimals)
+                      userMaxAmountCtrl.text.trim(), Config.USDtokenDecimals)
                   .toString(),
               "exchangeToken": exchangeTokenCtrl.text.trim(),
               "exchangeTokenTotalAmount": Fmt.tokenInt(

@@ -80,9 +80,9 @@ class _IcoSetMinMaxAmount extends State<IcoSetMinMaxAmount> {
           params: [
             data.currencyId,
             data.index,
-            Fmt.tokenInt(userMinAmountCtrl.text.trim(), Config.kUSDDecimals)
+            Fmt.tokenInt(userMinAmountCtrl.text.trim(), Config.USDtokenDecimals)
                 .toString(),
-            Fmt.tokenInt(userMaxAmountCtrl.text.trim(), Config.kUSDDecimals)
+            Fmt.tokenInt(userMaxAmountCtrl.text.trim(), Config.USDtokenDecimals)
                 .toString(),
           ],
           onSuccess: (res) {
@@ -135,11 +135,11 @@ class _IcoSetMinMaxAmount extends State<IcoSetMinMaxAmount> {
                           if (val.length == 0) {
                             return dic.required;
                           } else if (_minUsdt != null &&
-                              Fmt.tokenInt(val, Config.kUSDDecimals) <
+                              Fmt.tokenInt(val, Config.USDtokenDecimals) <
                                   _minUsdt!) {
                             return dic.amount_too_low +
                                 "; >" +
-                                Fmt.token(_minUsdt, Config.kUSDDecimals);
+                                Fmt.token(_minUsdt, Config.USDtokenDecimals);
                           }
 
                           return null;
@@ -171,11 +171,11 @@ class _IcoSetMinMaxAmount extends State<IcoSetMinMaxAmount> {
                                   BigInt.parse(val)) {
                             return dic.userMaxAmountError;
                           } else if (_maxUsdt != null &&
-                              Fmt.tokenInt(val, Config.kUSDDecimals) >
+                              Fmt.tokenInt(val, Config.USDtokenDecimals) >
                                   _maxUsdt!) {
                             return dic.amount_too_high +
                                 "; <" +
-                                Fmt.token(_maxUsdt, Config.kUSDDecimals);
+                                Fmt.token(_maxUsdt, Config.USDtokenDecimals);
                           }
 
                           return null;

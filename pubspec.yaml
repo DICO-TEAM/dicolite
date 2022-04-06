@@ -57,7 +57,7 @@ dependencies:
   
   charts_flutter: 
     git:
-      url: git://github.com/google/charts.git
+      url: https://github.com/google/charts.git
       path: charts_flutter
   update_app: ^0.1.7
 

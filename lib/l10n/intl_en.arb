@@ -12,6 +12,7 @@
     "burn": "Burn",
     "burnNftTip": "Burning NFT will increase your mint quota, burning it?",
     "noQuota": "Not enough quota, cannot mint!",
+    "noNFT": "Not enough NFT, cannot mint!",
     "seller": "Seller",
     "owner": "Owner",
     "newest": "Newest",

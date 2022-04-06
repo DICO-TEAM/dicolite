@@ -180,6 +180,16 @@ class S {
     );
   }
 
+  /// `Not enough NFT, cannot mint!`
+  String get noNFT {
+    return Intl.message(
+      'Not enough NFT, cannot mint!',
+      name: 'noNFT',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Seller`
   String get seller {
     return Intl.message(

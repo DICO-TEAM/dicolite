@@ -458,7 +458,7 @@ class _IcoParticipate extends State<IcoParticipate> {
     return Observer(builder: (_) {
       int nowBlock = store.dico?.newHeads?.number ?? 0;
       bool isStarted = ico!.startTime! - nowBlock < 0;
-      bool isFinished = (ico!.icoDuration + ico!.startTime! - nowBlock < 0) ||
+      bool isFinished = (ico!.icoDuration + ico!.startTime! - nowBlock <= 0) ||
           ico!.totalUnrealeaseAmount >= ico!.exchangeTokenTotalAmount ||
           ico!.isTerminated;
 
@@ -681,7 +681,7 @@ class _IcoParticipate extends State<IcoParticipate> {
                                 padding: EdgeInsets.all(15),
                                 child: Column(
                                   children: [
-                                    ico!.isMustKyc
+                                    ico!.isMustKyc&&ico!.excludeArea.isNotEmpty
                                         ? Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
@@ -742,9 +742,7 @@ class _IcoParticipate extends State<IcoParticipate> {
                                   ],
                                 ),
                               ),
-                              isFinished &&
-                                      userJoinAmount != null &&
-                                      exchangeToken != null
+                              userJoinAmount != null && exchangeToken != null
                                   ? releaseAndReward(dic, isInitiator,
                                       releasable, unlockable, rewardable)
                                   : Container(),

@@ -517,6 +517,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("No camara premission"),
         "noLiquidity": MessageLookupByLibrary.simpleMessage("No liquidity"),
         "noMore": MessageLookupByLibrary.simpleMessage("No More Data"),
+        "noNFT": MessageLookupByLibrary.simpleMessage(
+            "Not enough NFT, cannot mint!"),
         "noPendingProposals":
             MessageLookupByLibrary.simpleMessage("No pending proposals"),
         "noPendingTips":

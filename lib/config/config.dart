@@ -5,9 +5,8 @@ class Config {
   static const String tokenSymbol = "KICO";
   static const int tokenDecimals = 14;
 
-  static const String kUSDid = "10";
-  static const String kUSDSymbol = "kUSD";
-  static const int kUSDDecimals = 12;
+  static const String USDtokenId = "10";
+  static const int USDtokenDecimals = 12;
   static const int default_ss58_prefix = 42;
   static const double swapfee = 0.003;
   static const double lbpSwapfee = 0.005;

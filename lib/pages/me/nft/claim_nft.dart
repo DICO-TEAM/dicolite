@@ -49,7 +49,7 @@ class _ClaimNftState extends State<ClaimNft> {
 
       if (index != -1) {
         if (Fmt.tokenInt(
-                Config.nftList[index][1].toString(), Config.kUSDDecimals) <
+                Config.nftList[index][1].toString(), Config.USDtokenDecimals) <
             myTotalValueOfIco) {
           return true;
         }
@@ -171,7 +171,7 @@ class _ClaimNftState extends State<ClaimNft> {
                   height: 30,
                 ),
                 Text(
-                  Fmt.token(_myTotalValueOfIco, Config.kUSDDecimals),
+                  Fmt.token(_myTotalValueOfIco, Config.USDtokenDecimals),
                   style: Theme.of(context).textTheme.headline5!.copyWith(
                       color: Colors.white, fontWeight: FontWeight.bold),
                 ),
@@ -220,10 +220,10 @@ class _ClaimNftState extends State<ClaimNft> {
           ? Container()
           : Row(
               children: [
-                _selectClass == null
+                _canClaimNftList.isEmpty
                     ? Expanded(
                         child: Text(
-                          dic.noQuota,
+                          dic.noNFT,
                           style:
                               Theme.of(context).textTheme.bodyText1!.copyWith(
                                     color: Color(0xFFFF3D00),
@@ -231,56 +231,75 @@ class _ClaimNftState extends State<ClaimNft> {
                                   ),
                         ),
                       )
-                    : Expanded(
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: DropdownButtonFormField(
-                                value: _selectClass,
-                                items: _canClaimNftList
-                                    .map((f) => DropdownMenuItem(
-                                          child: Container(
-                                            width: Adapt.px(340),
-                                            child: Text(
-                                              Config.nftList.firstWhere((e) =>
-                                                  e[3] == f[0].toString())[0],
-                                              style: TextStyle(
-                                                  fontSize: Adapt.px(28)),
-                                              textAlign: TextAlign.left,
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                          ),
-                                          value: f,
-                                        ))
-                                    .toList(),
-                                onChanged: (v) {
-                                  setState(() {
-                                    _selectClass = v as List;
-                                  });
-                                },
-                                decoration: InputDecoration(
-                                  errorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(15),
-                                    borderSide: BorderSide(color: Colors.white),
+                    : _selectClass == null
+                        ? Expanded(
+                            child: Text(
+                              dic.noQuota,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1!
+                                  .copyWith(
+                                    color: Color(0xFFFF3D00),
+                                    fontSize: Adapt.px(25),
                                   ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(15),
-                                    borderSide: BorderSide(color: Colors.white),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(15),
-                                    borderSide: BorderSide(color: Colors.white),
-                                  ),
-                                  fillColor: Config.bgColor,
-                                  contentPadding:
-                                      EdgeInsets.fromLTRB(15, 10, 5, 15),
-                                  filled: true,
-                                ),
-                              ),
                             ),
-                          ],
-                        ),
-                      ),
+                          )
+                        : Expanded(
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: DropdownButtonFormField(
+                                    value: _selectClass,
+                                    items: _canClaimNftList
+                                        .map((f) => DropdownMenuItem(
+                                              child: Container(
+                                                width: Adapt.px(340),
+                                                child: Text(
+                                                  Config.nftList.firstWhere(
+                                                      (e) =>
+                                                          e[3] ==
+                                                          f[0].toString())[0],
+                                                  style: TextStyle(
+                                                      fontSize: Adapt.px(28)),
+                                                  textAlign: TextAlign.left,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
+                                              ),
+                                              value: f,
+                                            ))
+                                        .toList(),
+                                    onChanged: (v) {
+                                      setState(() {
+                                        _selectClass = v as List;
+                                      });
+                                    },
+                                    decoration: InputDecoration(
+                                      errorBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                        borderSide:
+                                            BorderSide(color: Colors.white),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                        borderSide:
+                                            BorderSide(color: Colors.white),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                        borderSide:
+                                            BorderSide(color: Colors.white),
+                                      ),
+                                      fillColor: Config.bgColor,
+                                      contentPadding:
+                                          EdgeInsets.fromLTRB(15, 10, 5, 15),
+                                      filled: true,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                 SizedBox(
                   width: 10,
                 ),

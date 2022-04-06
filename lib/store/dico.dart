@@ -168,7 +168,7 @@ abstract class _DicoStoreBase with Store {
     if (passedIcoList != null && newHeads != null) {
       return passedIcoList!
           .where((e) =>
-              (e.icoDuration + e.startTime! < newHeads!.number) ||
+              (e.icoDuration + e.startTime! <= newHeads!.number) ||
               e.totalUnrealeaseAmount >= e.exchangeTokenTotalAmount ||
               e.isTerminated)
           .toList();

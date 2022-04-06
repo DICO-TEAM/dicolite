@@ -311,19 +311,7 @@ class _TokenAssetState extends State<TokenAsset>
                                           fontSize: Adapt.px(32),
                                         ),
                                       ),
-                                      // lockedInfo.length > 2
-                                      //     ? Tooltip(
-                                      //         message: lockedInfo,
-                                      //         child: Padding(
-                                      //           padding:
-                                      //               EdgeInsets.only(right: 6),
-                                      //           child: Image.asset(
-                                      //               'assets/images/main/assets-tips.png'),
-                                      //         ),
-                                      //         // waitDuration:
-                                      //         //     Duration(seconds: 0),
-                                      //       )
-                                      //     : Container(),
+                                     
                                     ],
                                   ),
                                   SizedBox(

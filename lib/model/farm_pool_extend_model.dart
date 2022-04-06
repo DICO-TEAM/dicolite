@@ -115,7 +115,7 @@ class FarmPoolExtendModel {
     Decimal? farmPoolAmountUsd;
     if (isStakeLP) {
       if (liquidityList
-              .indexWhere((e) => e.currencyIds.contains(Config.kUSDid)) ==
+              .indexWhere((e) => e.currencyIds.contains(Config.USDtokenId)) ==
           -1) {
         return null;
       }
@@ -125,13 +125,13 @@ class FarmPoolExtendModel {
       }
       Decimal percent = Decimal.fromBigInt(totalStakeAmount) /
           Decimal.fromBigInt(stakeLiquidity!.totalIssuance);
-      if (stakeLiquidity!.currencyIds.contains(Config.kUSDid)) {
-        BigInt amountUSDT = stakeLiquidity!.currencyId1 == Config.kUSDid
+      if (stakeLiquidity!.currencyIds.contains(Config.USDtokenId)) {
+        BigInt amountUSDT = stakeLiquidity!.currencyId1 == Config.USDtokenId
             ? stakeLiquidity!.token1Amount
             : stakeLiquidity!.token2Amount;
         farmPoolAmountUsd = Decimal.fromInt(2) *
             percent *
-            Fmt.bigIntToDecimal(amountUSDT, Config.kUSDDecimals);
+            Fmt.bigIntToDecimal(amountUSDT, Config.USDtokenDecimals);
       } else {
         Decimal? token1AmountUsd = calcuteTokenValOfUsd(
             liquidityList,
@@ -161,12 +161,12 @@ class FarmPoolExtendModel {
       }
     } else {
       /// one token pool
-      if (stakeToken!.currencyId == Config.kUSDid) {
+      if (stakeToken!.currencyId == Config.USDtokenId) {
         farmPoolAmountUsd =
             Fmt.bigIntToDecimal(totalStakeAmount, stakeToken!.decimals);
       } else {
         if (liquidityList
-                .indexWhere((e) => e.currencyIds.contains(Config.kUSDid)) ==
+                .indexWhere((e) => e.currencyIds.contains(Config.USDtokenId)) ==
             -1) {
           return null;
         }
@@ -187,7 +187,7 @@ class FarmPoolExtendModel {
     List<List> liquidityIdsList =
         liquidityList.map((e) => e.currencyIds).toList();
     List path = Dijkstra.findPathFromPairsList(
-        liquidityIdsList, tokenInCurrencyId, Config.kUSDid);
+        liquidityIdsList, tokenInCurrencyId, Config.USDtokenId);
     if (BigInt.parse(tokenInCurrencyId) > Config.liquidityFirstId) {
       return null;
     }
@@ -250,7 +250,7 @@ class FarmPoolExtendModel {
   ) {
     if (isRewardLP &&
         liquidityList
-                .indexWhere((e) => e.currencyIds.contains(Config.kUSDid)) ==
+                .indexWhere((e) => e.currencyIds.contains(Config.USDtokenId)) ==
             -1) {
       return null;
     }
@@ -258,13 +258,13 @@ class FarmPoolExtendModel {
     if (isRewardLP) {
       Decimal percent = Decimal.fromBigInt(rewardPerBlock) /
           Decimal.fromBigInt(rewardLiquidity!.totalIssuance);
-      if (rewardLiquidity!.currencyIds.contains(Config.kUSDid)) {
-        BigInt amountUSDT = rewardLiquidity!.currencyId1 == Config.kUSDid
+      if (rewardLiquidity!.currencyIds.contains(Config.USDtokenId)) {
+        BigInt amountUSDT = rewardLiquidity!.currencyId1 == Config.USDtokenId
             ? rewardLiquidity!.token1Amount
             : rewardLiquidity!.token2Amount;
         return Decimal.fromInt(2) *
             percent *
-            Fmt.bigIntToDecimal(amountUSDT, Config.kUSDDecimals);
+            Fmt.bigIntToDecimal(amountUSDT, Config.USDtokenDecimals);
       } else {
         Decimal? token1AmountUsd = calcuteTokenValOfUsd(
             liquidityList,
@@ -295,11 +295,11 @@ class FarmPoolExtendModel {
         return amountUsd;
       }
     } else {
-      if (rewardCurrencyId == Config.kUSDid) {
+      if (rewardCurrencyId == Config.USDtokenId) {
         return Fmt.bigIntToDecimal(rewardPerBlock, rewardDecimals);
       } else {
         if (liquidityList
-                .indexWhere((e) => e.currencyIds.contains(Config.kUSDid)) ==
+                .indexWhere((e) => e.currencyIds.contains(Config.USDtokenId)) ==
             -1) {
           return null;
         }

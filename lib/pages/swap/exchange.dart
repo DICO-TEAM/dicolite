@@ -186,7 +186,7 @@ class _Exchange extends State<Exchange> {
 
   _tokenPaySelect() async {
     CurrencyModel? res = await Navigator.of(context)
-            .pushNamed(SelectToken.route, arguments: "useTokenInLP")
+            .pushNamed(SelectToken.route, arguments: "useTokensInLP")
         as CurrencyModel?;
     if (res != null && mounted) {
       if (tokenReceive != null && tokenReceive!.currencyId == res.currencyId) {
@@ -216,7 +216,7 @@ class _Exchange extends State<Exchange> {
 
   _tokenReceiveSelect() async {
     CurrencyModel? res = await Navigator.of(context)
-            .pushNamed(SelectToken.route, arguments: "useTokenInLP")
+            .pushNamed(SelectToken.route, arguments: "useTokensInLP")
         as CurrencyModel?;
     if (res != null && mounted) {
       if (tokenPay != null && tokenPay!.currencyId == res.currencyId) {
