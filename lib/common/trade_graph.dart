@@ -5,7 +5,7 @@ import '../model/liquidity_model.dart';
 class TradeGraph {
      Map<String, List<String>> adj={};
 
-    TradeGraph(List<LiquidityModel>data) {
+    TradeGraph(List<LiquidityModel> data) {
        Map<String, List<String>> val = {};
 
         
@@ -31,7 +31,7 @@ class TradeGraph {
         return adj[currencyId1.toString()];
     }
 
-    List<List<String>> getPaths(String start, String end, int? lengthLimit) {
+    List<List<String>> getPaths(String start, String end, {int? lengthLimit}) {
         List<List<String>> result = [];
         List<String> path = [start];
          List<List<String>> searchList = [(adj[start]?? [])];

@@ -262,13 +262,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.0.1"
-  dijkstra:
-    dependency: "direct main"
-    description:
-      name: dijkstra
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.0.2"
   dio:
     dependency: "direct main"
     description:

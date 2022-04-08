@@ -5,6 +5,7 @@ import 'package:decimal/decimal.dart';
 import 'package:dicolite/config/config.dart';
 import 'package:dicolite/generated/l10n.dart';
 import 'package:dicolite/model/currency_model.dart';
+import 'package:dicolite/model/route_model.dart';
 import 'package:dicolite/pages/home.dart';
 import 'package:dicolite/pages/me/tx_confirm_page.dart';
 import 'package:dicolite/pages/swap/select_token.dart';
@@ -56,6 +57,8 @@ class _Exchange extends State<Exchange> {
 
   bool _swapExactInMode = true;
   SwapOutputData? _swapOutput;
+
+  RouteModel? _route;
 
   String _minReceived = "";
   String _maxSent = "";
@@ -129,7 +132,9 @@ class _Exchange extends State<Exchange> {
       _insufficientLiquidity = false;
     });
     if (tokenReceive != null && tokenPay != null) {
-      String? val = _swapOutput!.caltokenPayAmount(_amountReceiveCtrl.text);
+      CalcuResult calcuResult =
+          _swapOutput!.calcuPayAmountBestResult(_amountReceiveCtrl.text);
+      var val = calcuResult.amount;
       if (val != null) {
         String max = val.isEmpty
             ? ''
@@ -141,6 +146,7 @@ class _Exchange extends State<Exchange> {
           _amountPayCtrl.text = val;
           _maxSent = max;
           _minReceived = "";
+          _route = calcuResult.route;
         });
       } else {
         setState(() {
@@ -148,6 +154,7 @@ class _Exchange extends State<Exchange> {
           _insufficientLiquidity = true;
           _maxSent = "";
           _minReceived = "";
+          _route = calcuResult.route;
         });
       }
     }
@@ -159,8 +166,9 @@ class _Exchange extends State<Exchange> {
       _insufficientLiquidity = false;
     });
     if (tokenPay != null && tokenReceive != null) {
-      String? val = _swapOutput!.caltokenReceiveAmount(_amountPayCtrl.text);
-
+      CalcuResult calcuResult =
+          _swapOutput!.calcuReceiveAmountBestResult(_amountPayCtrl.text);
+      var val = calcuResult.amount;
       if (val != null) {
         String min = val.isEmpty
             ? ''
@@ -172,6 +180,7 @@ class _Exchange extends State<Exchange> {
           _amountReceiveCtrl.text = val;
           _minReceived = min;
           _maxSent = "";
+          _route = calcuResult.route;
         });
       } else {
         setState(() {
@@ -179,6 +188,7 @@ class _Exchange extends State<Exchange> {
           _insufficientLiquidity = true;
           _minReceived = "";
           _maxSent = "";
+          _route = calcuResult.route;
         });
       }
     }
@@ -461,7 +471,9 @@ class _Exchange extends State<Exchange> {
       }
 
       Decimal? priceImpact = _swapOutput.computePriceImpact(
-              _amountPayCtrl.text, _amountReceiveCtrl.text) ??
+              _route!.liquidityPath,
+              _amountPayCtrl.text,
+              _amountReceiveCtrl.text) ??
           null;
       if (priceImpact != null &&
           Decimal.parse(_slippage.toString()) <
@@ -478,7 +490,7 @@ class _Exchange extends State<Exchange> {
   }
 
   _exchange() async {
-    if (_swapOutput != null) {
+    if (_swapOutput != null && _route != null) {
       TxConfirmParams args = _swapExactInMode
           ? TxConfirmParams(
               title: S.of(context).exchange,
@@ -487,13 +499,13 @@ class _Exchange extends State<Exchange> {
               detail: jsonEncode({
                 "amountIn": _amountPayCtrl.text.trim(),
                 "amountOutMin": _minReceived,
-                "path": _swapOutput!.route.path,
+                "path": _route!.path,
               }),
               params: [
                 Fmt.tokenInt(_amountPayCtrl.text.trim(), tokenPay!.decimals)
                     .toString(),
                 Fmt.tokenInt(_minReceived, tokenReceive!.decimals).toString(),
-                _swapOutput!.route.path
+                _route!.path
               ],
               onSuccess: (res) {
                 _showResult(res["successRes"]);
@@ -506,14 +518,14 @@ class _Exchange extends State<Exchange> {
               detail: jsonEncode({
                 "amountOut": _amountReceiveCtrl.text.trim(),
                 "amountInMax": _maxSent,
-                "path": _swapOutput!.route.path
+                "path": _route!.path
               }),
               params: [
                 Fmt.tokenInt(
                         _amountReceiveCtrl.text.trim(), tokenReceive!.decimals)
                     .toString(),
                 Fmt.tokenInt(_maxSent, tokenPay!.decimals).toString(),
-                _swapOutput!.route.path
+                _route!.path
               ],
               onSuccess: (res) {
                 _showResult(res["successRes"]);
@@ -637,7 +649,7 @@ class _Exchange extends State<Exchange> {
     S dic = S.of(context);
     String? priceImpact;
     TextStyle? priceImpactStyle;
-    Decimal? res = _swapOutput?.computePriceImpact(
+    Decimal? res = _swapOutput?.computePriceImpact(_route?.liquidityPath,
             _amountPayCtrl.text, _amountReceiveCtrl.text) ??
         null;
     if (res != null) {
@@ -716,7 +728,7 @@ class _Exchange extends State<Exchange> {
                     SizedBox(
                       height: 5,
                     ),
-                    _swapOutput!.route.symbolList.length > 2
+                    _route != null && _route!.symbolList.length > 2
                         ? Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
@@ -726,7 +738,7 @@ class _Exchange extends State<Exchange> {
                               ),
                               Expanded(
                                   child: Text(
-                                _swapOutput.route.symbolList.join(" > "),
+                                _route!.symbolList.join(" > "),
                                 style: valStyle,
                                 textAlign: TextAlign.right,
                               )),
@@ -858,7 +870,7 @@ class _Exchange extends State<Exchange> {
                                 ],
                                 onChanged: (v) => _ontokenPayChange(),
                                 validator: (v) {
-                                  String val = v?.trim().toString()??"";
+                                  String val = v?.trim().toString() ?? "";
 
                                   if (val.length == 0 ||
                                       Decimal.parse(val) == Decimal.zero) {
@@ -1070,12 +1082,13 @@ class _Exchange extends State<Exchange> {
                       ),
                       RoundedButton(
                         foregroundColor: _swapOutput != null &&
-                                (_swapOutput!.route.symbolList.isEmpty ||
+                                (_route == null ||
+                                    _route!.symbolList.isEmpty ||
                                     _insufficientLiquidity)
                             ? Colors.red
                             : Colors.white,
                         text: _swapOutput != null &&
-                                _swapOutput!.route.symbolList.isEmpty
+                                (_route == null || _route!.symbolList.isEmpty)
                             ? dic.noLiquidity
                             : _insufficientLiquidity
                                 ? dic.insufficientLiquidity

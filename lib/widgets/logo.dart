@@ -77,8 +77,8 @@ class Logo extends StatelessWidget {
             Container(
               width: 62,
             ),
-            Positioned(child: _logo1(list[0])),
-            Positioned(left: 25, child: _logo1(list[1])),
+            Positioned(child: _logo1(list.isNotEmpty?list[0]:null)),
+            Positioned(left: 25, child: _logo1(list.isNotEmpty?list[1]:null)),
           ],
         ),
       );

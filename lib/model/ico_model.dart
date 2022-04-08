@@ -4,7 +4,7 @@ class IcoModel {
   bool isAlreadyKyc;
   String initiator;
 
-  /// decimals is USDT
+  /// decimals is USD
   BigInt totalUsdt;
   bool isTerminated;
   String projectName;
@@ -30,10 +30,10 @@ class IcoModel {
   /// decimals is exchange token
   BigInt totalUnrealeaseAmount;
 
-  /// decimals is USDT
+  /// decimals is USD
   BigInt userMinAmount;
 
-  /// decimals is USDT
+  /// decimals is USD
   BigInt userMaxAmount;
 
   ///exchangeToken id
@@ -48,7 +48,7 @@ class IcoModel {
   /// decimals is ico token
   BigInt perDurationUnlockAmount;
 
-/// totalIcoAmount/exchangeTokenTotalAmount
+  /// totalIcoAmount/exchangeTokenTotalAmount
   double rate;
 
   IcoModel.fromJson(json)
@@ -71,14 +71,18 @@ class IcoModel {
         totalCirculation = BigInt.parse(json["totalCirculation"].toString()),
         icoDuration = json["icoDuration"],
         totalIcoAmount = BigInt.parse(json["totalIcoAmount"].toString()),
-        totalUnrealeaseAmount = BigInt.parse(json["totalUnrealeaseAmount"]?.toString()??'0'),
+        totalUnrealeaseAmount =
+            BigInt.parse(json["totalUnrealeaseAmount"]?.toString() ?? '0'),
         userMinAmount = BigInt.parse(json["userMinAmount"].toString()),
         userMaxAmount = BigInt.parse(json["userMaxAmount"].toString()),
         exchangeToken = json["exchangeToken"].toString(),
-        exchangeTokenTotalAmount = BigInt.parse(json["exchangeTokenTotalAmount"].toString()),
+        exchangeTokenTotalAmount =
+            BigInt.parse(json["exchangeTokenTotalAmount"].toString()),
         excludeArea = List<String>.from(json["excludeArea"]),
         lockProportion = json["lockProportion"],
         unlockDuration = json["unlockDuration"],
-        rate = BigInt.parse(json["totalIcoAmount"].toString())/BigInt.parse(json["exchangeTokenTotalAmount"].toString()),
-        perDurationUnlockAmount = BigInt.parse(json["perDurationUnlockAmount"].toString());
+        rate = BigInt.parse(json["totalIcoAmount"].toString()) /
+            BigInt.parse(json["exchangeTokenTotalAmount"].toString()),
+        perDurationUnlockAmount =
+            BigInt.parse(json["perDurationUnlockAmount"].toString());
 }

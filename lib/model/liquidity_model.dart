@@ -12,14 +12,17 @@ class LiquidityModel {
   BigInt token2Amount;
   BigInt totalIssuance;
 
-  bool showDetail=false;
+  bool showDetail = false;
 
- String get symbol{
-    return symbol1+"-"+symbol2;
+  String get symbol {
+    return symbol1 + "-" + symbol2;
   }
 
   LiquidityModel.fromList(list)
-      : currencyIds = [list[0]["currencyId"].toString(), list[1]["currencyId"].toString()],
+      : currencyIds = [
+          list[0]["currencyId"].toString(),
+          list[1]["currencyId"].toString()
+        ],
         currencyId1 = list[0]["currencyId"].toString(),
         symbol1 = list[0]['metadata']['symbol'].toString(),
         decimals1 = list[0]['metadata']['decimals'],
@@ -30,4 +33,14 @@ class LiquidityModel {
         token2Amount = BigInt.parse(list[3].toString()),
         liquidityId = list[4].toString(),
         totalIssuance = BigInt.parse(list[5].toString());
+
+  bool isContainsCurrencyIds(List<String> list) {
+    if (list[0] == this.currencyId1 && list[1] == this.currencyId2) {
+      return true;
+    }
+    if (list[0] == this.currencyId2 && list[1] == this.currencyId1) {
+      return true;
+    } else
+      return false;
+  }
 }

@@ -1,9 +1,9 @@
 import 'package:decimal/decimal.dart';
+import 'package:dicolite/common/trade_graph.dart';
 import 'package:dicolite/config/config.dart';
 import 'package:dicolite/model/currency_model.dart';
 import 'package:dicolite/model/liquidity_model.dart';
 import 'package:dicolite/utils/format.dart';
-import 'package:dijkstra/dijkstra.dart';
 
 class FarmPoolModel {
   BigInt accDicoPerShare;
@@ -91,12 +91,12 @@ class FarmPoolModel {
       Decimal percent = Decimal.fromBigInt(totalAmount) /
           Decimal.fromBigInt(liquidity!.totalIssuance);
       if (liquidity!.currencyIds.contains(Config.USDtokenId)) {
-        BigInt amountUSDT = liquidity!.currencyId1 == Config.USDtokenId
+        BigInt amountUSD = liquidity!.currencyId1 == Config.USDtokenId
             ? liquidity!.token1Amount
             : liquidity!.token2Amount;
         farmPoolAmountUsd = Decimal.fromInt(2) *
             percent *
-            Fmt.bigIntToDecimal(amountUSDT, Config.USDtokenDecimals);
+            Fmt.bigIntToDecimal(amountUSD, Config.USDtokenDecimals);
       } else {
         Decimal? token1AmountUsd = calcuteTokenValOfUsd(
             liquidityList,
@@ -176,13 +176,32 @@ class FarmPoolModel {
         8);
   }
 
+  List<LiquidityModel> _pathToLiquidityList(
+      List path, List<LiquidityModel> liquidityList) {
+    List<List<String>> pathList = [];
+    for (var i = 1; i < path.length; i++) {
+      pathList.add([path[i - 1], path[i]]);
+    }
+    List<LiquidityModel> list = pathList
+        .map((e) => liquidityList.firstWhere((x) => x.isContainsCurrencyIds(e)))
+        .toList();
+    return list;
+  }
+
   ///Calcute value of usd
   Decimal? calcuteTokenValOfUsd(List<LiquidityModel> liquidityList,
       Decimal amountIn, String tokenInCurrencyId) {
-    List<List> liquidityIdsList =
-        liquidityList.map((e) => e.currencyIds).toList();
-    List path = Dijkstra.findPathFromPairsList(
-        liquidityIdsList, tokenInCurrencyId, Config.USDtokenId);
+    List<String> path = [];
+    if (liquidityList.isNotEmpty) {
+      TradeGraph tradeGraph = TradeGraph(liquidityList);
+      List<List<String>> paths =
+          tradeGraph.getPaths(tokenInCurrencyId, Config.USDtokenId);
+      if (paths.isNotEmpty) {
+        path = paths[0];
+      }
+    } else {
+      return null;
+    }
 
     if (BigInt.parse(tokenInCurrencyId) > Config.liquidityFirstId) {
       return null;
@@ -190,16 +209,12 @@ class FarmPoolModel {
     if (path.isEmpty) {
       return null;
     }
-    List<Set> pathList = [];
-    for (var i = 1; i < path.length; i++) {
-      pathList.add(Set.from([path[i - 1], path[i]]));
-    }
+
     Decimal? midPrice;
     try {
-      List<LiquidityModel> findLiquidityList = pathList
-          .map((Set e) => liquidityList
-              .firstWhere((x) => x.currencyIds.toSet().containsAll(e)))
-          .toList();
+      List<LiquidityModel> findLiquidityList =
+          _pathToLiquidityList(path, liquidityList);
+
       midPrice = _calMidPriceForMulti(
           findLiquidityList, 0, Decimal.fromInt(1), tokenInCurrencyId);
     } catch (e) {
