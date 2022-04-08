@@ -962,9 +962,11 @@ packages:
   update_app:
     dependency: "direct main"
     description:
-      name: update_app
-      url: "https://pub.flutter-io.cn"
-    source: hosted
+      path: "."
+      ref: HEAD
+      resolved-ref: "9244daf49cdca95e78947e5f5e66351eda974749"
+      url: "https://github.com/kkenwv/flutter_update_app.git"
+    source: git
     version: "0.1.7"
   url_launcher:
     dependency: "direct main"

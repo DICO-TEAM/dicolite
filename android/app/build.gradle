@@ -62,7 +62,10 @@ android {
             keyPassword keystoreProperties['keyPassword']
             storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
             storePassword keystoreProperties['storePassword']
+            // v1signingenabled true
+            // v2signingenabled true
         }
+        
     }
     buildTypes {
         release {
