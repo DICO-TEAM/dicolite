@@ -318,7 +318,7 @@ class Fmt {
 
   static int daysToblock(double? days, int? blockDuration) {
     if (days == null) return 0;
-    if (blockDuration == null) blockDuration = 6000; // 6s
+    if (blockDuration == null) blockDuration = 12000; // 12s
 
     return (days * 24 * 60 * 60000) ~/ blockDuration;
   }
@@ -326,7 +326,7 @@ class Fmt {
   static int blockToMin(int? blocks, int? blockDuration) {
     if (blocks == null || blocks == 0 || blockDuration == 0 || blocks < 0)
       return 0;
-    if (blockDuration == null) blockDuration = 6000; // 6s
+    if (blockDuration == null) blockDuration = 12000; // 12s
     int blocksOfMin = 60000 ~/ blockDuration;
 
     return (blocks / blocksOfMin).floor();
