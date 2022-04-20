@@ -52,7 +52,6 @@ class _Pool extends State<Pool> with TickerProviderStateMixin {
   TextStyle boldStyle = TextStyle(fontWeight: FontWeight.bold);
   MyLiquidityModel? myLiquidity;
   bool hasGetMyLiquidity = false;
-  Timer? _timer;
 
   @override
   void initState() {
@@ -76,7 +75,6 @@ class _Pool extends State<Pool> with TickerProviderStateMixin {
     super.dispose();
     _stakeAmountCtrl.dispose();
     _withdrawAmountCtrl.dispose();
-    _timer?.cancel();
   }
 
   Decimal _getAccRewardPerShare(FarmPoolExtendModel pool) {
@@ -257,7 +255,10 @@ class _Pool extends State<Pool> with TickerProviderStateMixin {
                                   style: valStyle,
                                 ),
                                 SizedBox(width: 4),
-                                Logo(currencyId: pool!.isRewardLP?pool!.rewardLiquidity!.liquidityId:pool!.rewardCurrencyId),
+                                Logo(
+                                    currencyId: pool!.isRewardLP
+                                        ? pool!.rewardLiquidity!.liquidityId
+                                        : pool!.rewardCurrencyId),
                               ],
                             ),
                           ],
@@ -276,7 +277,10 @@ class _Pool extends State<Pool> with TickerProviderStateMixin {
                                   style: valStyle,
                                 ),
                                 SizedBox(width: 4),
-                                Logo(currencyId: pool!.isStakeLP?pool!.stakeLiquidity!.liquidityId:pool!.stakeCurrencyId),
+                                Logo(
+                                    currencyId: pool!.isStakeLP
+                                        ? pool!.stakeLiquidity!.liquidityId
+                                        : pool!.stakeCurrencyId),
                               ],
                             ),
                           ],
@@ -373,7 +377,8 @@ class _Pool extends State<Pool> with TickerProviderStateMixin {
                                     Fmt.token(pool!.myAmount,
                                             pool!.stakeDecimals) +
                                         " " +
-                                        pool!.stakeSymbol,
+                                        pool!.stakeSymbol +
+                                        "(${pool!.totalStakeAmount == BigInt.zero ? 0 : Fmt.decimalFixed(Decimal.fromInt(100) * (Decimal.parse(pool!.myAmount.toString())) / (Decimal.parse(pool!.totalStakeAmount.toString())), 3)}%)",
                                     style: valStyle,
                                   ),
                                 ],

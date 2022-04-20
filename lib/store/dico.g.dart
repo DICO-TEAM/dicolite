@@ -94,6 +94,13 @@ mixin _$DicoStore on _DicoStoreBase, Store {
           Computed<NftTokenInfoModel?>(() => super.activeNftToken,
               name: '_DicoStoreBase.activeNftToken'))
       .value;
+  Computed<String>? _$rawTokenPriceComputed;
+
+  @override
+  String get rawTokenPrice =>
+      (_$rawTokenPriceComputed ??= Computed<String>(() => super.rawTokenPrice,
+              name: '_DicoStoreBase.rawTokenPrice'))
+          .value;
 
   final _$tokensAtom = Atom(name: '_DicoStoreBase.tokens');
 
@@ -606,7 +613,8 @@ farmPhase: ${farmPhase},
 lbpPoolsInProgress: ${lbpPoolsInProgress},
 lbpPoolsFinished: ${lbpPoolsFinished},
 lbpPoolsMy: ${lbpPoolsMy},
-activeNftToken: ${activeNftToken}
+activeNftToken: ${activeNftToken},
+rawTokenPrice: ${rawTokenPrice}
     ''';
   }
 }

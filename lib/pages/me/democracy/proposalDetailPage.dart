@@ -102,7 +102,7 @@ class _ProposalDetailPageState extends State<ProposalDetailPage> {
               final List<List<String>> params = [];
               bool hasProposal = false;
               if (proposal.image?.proposal != null) {
-                proposal.image!.proposal!.meta!.args!.asMap().forEach((k, v) {
+                proposal.image?.proposal?.meta?.args?.asMap().forEach((k, v) {
                   params.add([
                     '${v.name}: ${v.type}',
                     proposal.image!.proposal!.args![k].toString()

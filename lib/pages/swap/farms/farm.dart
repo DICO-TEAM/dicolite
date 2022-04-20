@@ -332,7 +332,10 @@ class _Farm extends State<Farm> with TickerProviderStateMixin {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Logo(currencyId: pool!.isLP?pool!.liquidity!.liquidityId:pool!.currencyId),
+                            Logo(
+                                currencyId: pool!.isLP
+                                    ? pool!.liquidity!.liquidityId
+                                    : pool!.currencyId),
                             Text(
                               pool!.symbol,
                               style: valStyle,
@@ -387,12 +390,13 @@ class _Farm extends State<Farm> with TickerProviderStateMixin {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(dic.staked),
+                                  Text(dic.my + " " + dic.staked),
                                   Text(
                                     Fmt.token(
                                             pool!.myAmount, pool!.poolDeciaml) +
                                         " " +
-                                        pool!.symbol,
+                                        pool!.symbol +
+                                        "(${pool!.totalAmount == BigInt.zero ? 0 : Fmt.decimalFixed(Decimal.fromInt(100) * (Decimal.parse(pool!.myAmount.toString())) / (Decimal.parse(pool!.totalAmount.toString())), 3)}%)",
                                     style: valStyle,
                                   ),
                                 ],

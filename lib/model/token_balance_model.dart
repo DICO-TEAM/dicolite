@@ -11,7 +11,8 @@ class TokenBalanceModel {
         reserved = BigInt.parse(json["reserved"].toString()),
         frozen = BigInt.parse(json["frozen"].toString()),
         total = BigInt.parse(json["free"].toString()) +
-            BigInt.parse(json["reserved"].toString());
+            BigInt.parse(json["reserved"].toString()) + 
+            BigInt.parse(json["frozen"].toString());
             
   toJson() => {
         "free": free.toString(),

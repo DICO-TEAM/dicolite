@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:decimal/decimal.dart';
+import 'package:dicolite/config/config.dart';
 import 'package:dicolite/model/currency_model.dart';
 import 'package:dicolite/model/dao_proposal_model.dart';
 import 'package:dicolite/model/farm_pool_extend_model.dart';
@@ -17,6 +18,8 @@ import 'package:dicolite/model/new_heads_model.dart';
 import 'package:dicolite/model/nft_token_info_model.dart';
 import 'package:dicolite/model/token_balance_model.dart';
 import 'package:dicolite/store/assets/types/balancesInfo.dart';
+import 'package:dicolite/utils/calculate_price.dart';
+import 'package:dicolite/utils/format.dart';
 import 'package:mobx/mobx.dart';
 
 import 'app.dart';
@@ -39,23 +42,25 @@ abstract class _DicoStoreBase with Store {
         ? ObservableList<CurrencyModel>()
         : ObservableList.of(list);
     rootStore.localStorage.setTokens(
-        rootStore.settings?.endpoint.info.toUpperCase() ?? "DICO",
+        rootStore.settings?.endpoint.info.toUpperCase() ?? Config.tokenSymbol,
         list?.map((e) => e.toJson()).toList());
   }
 
   @computed
   List<CurrencyModel> get tokensSort {
-    BalancesInfo? dicoBalance = rootStore.assets
-        ?.balances[rootStore.settings?.networkState.tokenSymbol ?? 'DICO'];
+    BalancesInfo? dicoBalance = rootStore.assets?.balances[
+        rootStore.settings?.networkState.tokenSymbol ?? Config.tokenSymbol];
     CurrencyModel dico = CurrencyModel(
         currencyId: '0',
         decimals: rootStore.settings?.networkState.tokenDecimals ?? 14,
-        name: rootStore.settings?.networkState.tokenSymbol ?? 'DICO',
+        name:
+            rootStore.settings?.networkState.tokenSymbol ?? Config.tokenSymbol,
         owner: '',
-        symbol: rootStore.settings?.networkState.tokenSymbol ?? 'DICO',
+        symbol:
+            rootStore.settings?.networkState.tokenSymbol ?? Config.tokenSymbol,
         tokenBalance: TokenBalanceModel(
-            free: dicoBalance?.freeBalance ?? BigInt.zero,
-            frozen: BigInt.zero,
+            free: dicoBalance?.transferable ?? BigInt.zero,
+            frozen: dicoBalance?.lockedBalance ?? BigInt.zero,
             reserved: dicoBalance?.reserved ?? BigInt.zero,
             total: dicoBalance?.total ?? BigInt.zero),
         totalIssuance: BigInt.zero);
@@ -84,17 +89,19 @@ abstract class _DicoStoreBase with Store {
   List<CurrencyModel> get tokensInLPSort {
     if (rootStore.settings?.networkState.tokenSymbol != null &&
         rootStore.settings!.networkState.tokenSymbol.isNotEmpty) {
-      BalancesInfo? dicoBalance = rootStore.assets
-          ?.balances[rootStore.settings?.networkState.tokenSymbol ?? 'DICO'];
+      BalancesInfo? dicoBalance = rootStore.assets?.balances[
+          rootStore.settings?.networkState.tokenSymbol ?? Config.tokenSymbol];
       CurrencyModel dico = CurrencyModel(
           currencyId: '0',
           decimals: rootStore.settings?.networkState.tokenDecimals ?? 14,
-          name: rootStore.settings?.networkState.tokenSymbol ?? 'DICO',
+          name: rootStore.settings?.networkState.tokenSymbol ??
+              Config.tokenSymbol,
           owner: '',
-          symbol: rootStore.settings?.networkState.tokenSymbol ?? 'DICO',
+          symbol: rootStore.settings?.networkState.tokenSymbol ??
+              Config.tokenSymbol,
           tokenBalance: TokenBalanceModel(
-              free: dicoBalance?.freeBalance ?? BigInt.zero,
-              frozen: BigInt.zero,
+              free: dicoBalance?.transferable ?? BigInt.zero,
+              frozen: dicoBalance?.lockedBalance ?? BigInt.zero,
               reserved: dicoBalance?.reserved ?? BigInt.zero,
               total: dicoBalance?.total ?? BigInt.zero),
           totalIssuance: BigInt.zero);
@@ -112,8 +119,8 @@ abstract class _DicoStoreBase with Store {
 
   @action
   Future getTokens() async {
-    List<Map<String, dynamic>>? res = await rootStore.localStorage
-        .getTokens(rootStore.settings?.endpoint.info.toUpperCase() ?? "DICO");
+    List<Map<String, dynamic>>? res = await rootStore.localStorage.getTokens(
+        rootStore.settings?.endpoint.info.toUpperCase() ?? Config.tokenSymbol);
     if (res != null) {
       List<CurrencyModel> list =
           res.map((e) => CurrencyModel.fromJson(e)).toList();
@@ -388,6 +395,18 @@ abstract class _DicoStoreBase with Store {
   @action
   void setNewHeads(Map? n) {
     newHeads = n != null ? NewHeadsModel.fromJson(n) : null;
+  }
+
+  @computed
+  String get rawTokenPrice {
+    if (liquidityList != null && liquidityList!.isNotEmpty) {
+      Decimal? price = CalculatePrice.calcuteTokenBestPrice(
+          liquidityList!, Decimal.fromInt(1), Config.tokenId);
+      if (price != null) {
+        return Fmt.decimalFixed(price, 5);
+      }
+    }
+    return "~";
   }
 
   @action

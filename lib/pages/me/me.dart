@@ -459,15 +459,15 @@ class _MeState extends State<Me>
                                   .bodyText1!
                                   .copyWith(fontSize: Adapt.px(36)),
                             ),
-
-                            ///TODO
-                            // Text(
-                            //   " (1 DICO≈ \$0.01)",
-                            //   style: Theme.of(context)
-                            //       .textTheme
-                            //       .bodyText1!
-                            //       .copyWith(fontSize: Adapt.px(20)),
-                            // ),
+                            Text(
+                              (store.dico?.rawTokenPrice ?? "~") != "~"
+                                  ? " (1${store.settings!.networkState.tokenSymbol}≈ \$${store.dico!.rawTokenPrice})"
+                                  : "",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1!
+                                  .copyWith(fontSize: Adapt.px(20)),
+                            ),
                             Expanded(child: Container()),
                             store.settings!.networkName.isNotEmpty
                                 ? IconButton(
