@@ -29,8 +29,7 @@ class SwapOutputData {
       pathList.add([path[i - 1], path[i]]);
     }
     List<LiquidityModel> list = pathList
-        .map((e) =>
-            liquidityList.firstWhere((x) => x.isContainsCurrencyIds(e)))
+        .map((e) => liquidityList.firstWhere((x) => x.isContainsCurrencyIds(e)))
         .toList();
     return list;
   }
@@ -79,10 +78,13 @@ class SwapOutputData {
             route: getRoute(path),
             amount: _caltokenReceiveAmount(path, tokenPayAmount)))
         .toList();
+
+    /// need sort out like: 3,2,null
     result.sort((a, b) => double.parse(
             (b.amount ?? "0").isEmpty ? "0" : (b.amount ?? "0"))
         .compareTo(
             double.parse((a.amount ?? "0").isEmpty ? "0" : (a.amount ?? "0"))));
+   
     if (result.isNotEmpty) {
       return result[0];
     }
@@ -193,10 +195,14 @@ class SwapOutputData {
             amount: _caltokenPayAmount(path, tokenRecieveAmount)))
         .toList();
 
-    result.sort((a, b) => double.parse(
-            (a.amount ?? "0").isEmpty ? "0" : (a.amount ?? "0"))
-        .compareTo(
-            double.parse((b.amount ?? "0").isEmpty ? "0" : (b.amount ?? "0"))));
+    /// need sort out like: 2,3,null
+    result.sort((a, b) {
+      if (a.amount == null) return 1;
+      if (b.amount == null) return -1;
+      return (double.parse(a.amount!.isEmpty ? "0" : a.amount!)
+          .compareTo(double.parse(b.amount!.isEmpty ? "0" : b.amount!)));
+    });
+
     if (result.isNotEmpty) {
       return result[0];
     }
