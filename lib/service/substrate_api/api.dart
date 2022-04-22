@@ -162,8 +162,7 @@ class Api {
   _setSubFarmPoolExtendsChange(List? res) async {
     if (res != null && store.dico!.liquidityList != null) {
       Set<String> notInTokensLpIds = Set();
-      print("6666666");
-      print(res);
+
       for (var json in res) {
         if (BigInt.parse(json["currencyId"].toString()) >=
                 Config.liquidityFirstId ||

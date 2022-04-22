@@ -10,11 +10,16 @@ class ApiGovernance {
 
   Future<Map?> fetchCouncilInfo() async {
     Map? info = await apiRoot.evalJavascript('api.derive.elections.info()');
+    List? councilMembers =
+        await apiRoot.evalJavascript("api.derive.council.members()");
     if (info != null) {
       List all = [];
       all.addAll(info['members'].map((i) => i[0]));
       all.addAll(info['runnersUp'].map((i) => i[0]));
       all.addAll(info['candidates']);
+      info["councilMembers"] = councilMembers ?? [];
+      all.addAll(councilMembers ?? []);
+      all = all.toSet().toList();
       store.gov!.setCouncilInfo(info as Map<String, dynamic>);
       apiRoot.account?.fetchAddressIndex(all);
       apiRoot.account?.getAddressIcons(all);

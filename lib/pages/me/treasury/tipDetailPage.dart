@@ -244,8 +244,8 @@ class _TipDetailPageState extends State<TipDetailPage> {
       isFinder = true;
     }
     bool isCouncil = false;
-    widget.store.gov!.council.members!.forEach((e) {
-      if (widget.store.account!.currentAddress == e[0]) {
+    widget.store.gov!.council.councilMembers!.forEach((e) {
+      if (widget.store.account!.currentAddress == e) {
         isCouncil = true;
       }
     });
@@ -461,9 +461,9 @@ class _TipDetailPageState extends State<TipDetailPage> {
                                     Navigator.of(context).pushNamed(
                                       CandidateDetailPage.route,
                                       arguments: widget
-                                          .store.gov!.council.members!
+                                          .store.gov!.council.councilMembers!
                                           .firstWhere((i) {
-                                        return i[0] == e.address;
+                                        return i == e.address;
                                       }),
                                     );
                                   },

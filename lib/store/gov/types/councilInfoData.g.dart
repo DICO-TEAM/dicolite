@@ -10,6 +10,9 @@ CouncilInfoData _$CouncilInfoDataFromJson(Map<String, dynamic> json) =>
     CouncilInfoData()
       ..desiredSeats = json['desiredSeats'] as String
       ..termDuration = json['termDuration'] as String
+      ..councilMembers = (json['councilMembers'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList()
       ..members = (json['members'] as List<dynamic>?)
           ?.map((e) => e as List<dynamic>)
           .toList()
@@ -25,6 +28,7 @@ Map<String, dynamic> _$CouncilInfoDataToJson(CouncilInfoData instance) =>
     <String, dynamic>{
       'desiredSeats': instance.desiredSeats,
       'termDuration': instance.termDuration,
+      'councilMembers': instance.councilMembers,
       'members': instance.members,
       'runnersUp': instance.runnersUp,
       'candidates': instance.candidates,

@@ -77,7 +77,7 @@ class _TreasuryPageState extends State<TreasuryPage> {
                 Observer(
                   builder: (_) {
                     return Expanded(
-                      child: widget.store.gov!.council.members == null
+                      child: widget.store.gov!.council.councilMembers == null
                           ? CupertinoActivityIndicator()
                           : _tab == 0
                               ? SpendProposals(widget.store)

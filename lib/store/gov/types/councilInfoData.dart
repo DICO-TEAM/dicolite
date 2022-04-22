@@ -14,6 +14,7 @@ abstract class _CouncilInfoData {
   String desiredSeats="0";
   String termDuration="0";
 
+  List<String>? councilMembers;
   List<List<dynamic>>? members;
   List<List<dynamic>> runnersUp=[];
   List<String> candidates=[];

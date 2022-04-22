@@ -73,7 +73,7 @@ class _AddIco extends State<AddIco> {
   final TextEditingController lockProportionCtrl =
       new TextEditingController(text: "70");
   final TextEditingController unlockDurationCtrl =
-      new TextEditingController(text: "360");
+      new TextEditingController(text: "1");
   final TextEditingController perDurationUnlockAmountCtrl =
       new TextEditingController();
 

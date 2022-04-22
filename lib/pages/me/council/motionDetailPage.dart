@@ -2,10 +2,10 @@ import 'dart:convert';
 
 import 'package:dicolite/generated/l10n.dart';
 import 'package:dicolite/utils/adapt.dart';
+import 'package:dicolite/widgets/address_icon.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:dicolite/pages/me/council/council.dart';
 import 'package:dicolite/pages/me/council/councilPage.dart';
 import 'package:dicolite/pages/me/tx_confirm_page.dart';
 import 'package:dicolite/service/substrate_api/api.dart';
@@ -18,7 +18,6 @@ import 'package:dicolite/utils/format.dart';
 import 'package:dicolite/widgets/bordered_title.dart';
 import 'package:dicolite/widgets/jump_to_browser_link.dart';
 import 'package:dicolite/widgets/my_appbar.dart';
-import 'package:dicolite/widgets/rounded_button.dart';
 import 'package:dicolite/widgets/rounded_card.dart';
 
 class MotionDetailPage extends StatefulWidget {
@@ -150,8 +149,8 @@ class _MotionDetailPageState extends State<MotionDetailPage> {
               ['${v.name}: ${v.type}', motion.proposal!.args![k].toString()]);
         });
         bool isCouncil = false;
-        widget.store.gov!.council.members!.forEach((e) {
-          if (widget.store.account!.currentAddress == e[0]) {
+        widget.store.gov!.council.councilMembers!.forEach((e) {
+          if (widget.store.account!.currentAddress == e) {
             isCouncil = true;
           }
         });
@@ -407,26 +406,26 @@ class ProposalVoteButtonsRow extends StatelessWidget {
     return Row(
       children: <Widget>[
         Expanded(
-          child: RoundedButton(
-            icon: Icon(
-              Icons.check,
-              color: Theme.of(context).cardColor,
-            ),
-            text: isVotedYes ? '${dic.aye}(${dic.voted})' : dic.aye,
+          child: ElevatedButton.icon(
             onPressed: isCouncil && !isVotedYes ? () => onVote!(true) : null,
+            icon: Icon(Icons.check),
+            label: Text(
+              isVotedYes ? '${dic.aye}(${dic.voted})' : dic.aye,
+            ),
           ),
         ),
         Container(width: 16),
         Expanded(
-          child: RoundedButton(
-            icon: Icon(
-              Icons.clear,
-              color: Theme.of(context).cardColor,
-            ),
-            backgroundColor: Colors.orange,
-            foregroundColor: Colors.white,
-            text: isVotedNo ? '${dic.nay}(${dic.voted})' : dic.nay,
+          child: ElevatedButton.icon(
             onPressed: isCouncil && !isVotedNo ? () => onVote!(false) : null,
+            style: isCouncil && !isVotedNo
+                ? ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.orange))
+                : null,
+            icon: Icon(Icons.clear),
+            label: Text(
+              isVotedNo ? '${dic.nay}(${dic.voted})' : dic.nay,
+            ),
           ),
         ),
       ],
@@ -458,14 +457,13 @@ class _ProposalVotingListState extends State<ProposalVotingList> {
   @override
   Widget build(BuildContext context) {
     final S dic = S.of(context);
-    final String symbol = widget.store.settings!.networkState.tokenSymbol;
-    final int decimals = widget.store.settings!.networkState.tokenDecimals;
+
     final String voteCountAye =
         '${widget.council.votes!.ayes!.length}/${widget.council.votes!.threshold}';
-    int thresholdNay = widget.store.gov!.council.members!.length -
+    int thresholdNay = widget.store.gov!.council.councilMembers!.length -
         widget.council.votes!.threshold! +
         1;
-    
+
     final String voteCountNay =
         '${widget.council.votes!.nays!.length}/$thresholdNay';
 
@@ -516,33 +514,27 @@ class _ProposalVotingListState extends State<ProposalVotingList> {
                 ? widget.council.votes!.ayes!.map((e) {
                     final Map? accInfo =
                         widget.store.account!.addressIndexMap[e];
-                    if (widget.store.gov!.council.members!
-                            .indexWhere((i) => i[0] == e) ==
+                    if (widget.store.gov!.council.councilMembers!
+                            .indexWhere((i) => i == e) ==
                         -1) {
                       return Container();
                     }
-                    return CandidateItem(
-                      accInfo: accInfo,
-                      balance: widget.store.gov!.council.members!
-                          .firstWhere((i) => i[0] == e),
-                      tokenSymbol: symbol,
-                      decimals: decimals,
+                    return ListTile(
+                      leading: AddressIcon(e),
+                      title: Fmt.accountDisplayName(e, accInfo),
                     );
                   }).toList()
                 : widget.council.votes!.nays!.map((e) {
                     final Map? accInfo =
                         widget.store.account!.addressIndexMap[e];
-                    if (widget.store.gov!.council.members!
-                            .indexWhere((i) => i[0] == e) ==
+                    if (widget.store.gov!.council.councilMembers!
+                            .indexWhere((i) => i == e) ==
                         -1) {
                       return Container();
                     }
-                    return CandidateItem(
-                      accInfo: accInfo,
-                      balance: widget.store.gov!.council.members!
-                          .firstWhere((i) => i[0] == e),
-                      tokenSymbol: symbol,
-                      decimals: decimals,
+                    return ListTile(
+                      leading: AddressIcon(e),
+                      title: Fmt.accountDisplayName(e, accInfo),
                     );
                   }).toList(),
           )
@@ -620,8 +612,9 @@ class ProposalClose extends StatelessWidget {
   Widget build(BuildContext context) {
     bool canClose = false;
 
-    int thresholdNay =
-        store.gov!.council.members!.length - council.votes!.threshold! + 1;
+    int thresholdNay = store.gov!.council.councilMembers!.length -
+        council.votes!.threshold! +
+        1;
 
     if (council.votes!.ayes!.length >= council.votes!.threshold! ||
         council.votes!.nays!.length >= thresholdNay) {

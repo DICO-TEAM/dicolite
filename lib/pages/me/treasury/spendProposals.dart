@@ -67,8 +67,8 @@ class _ProposalsState extends State<SpendProposals> {
           decimals,
         );
         bool isCouncil = false;
-        widget.store.gov!.council.members!.forEach((e) {
-          if (widget.store.account!.currentAddress == e[0]) {
+        widget.store.gov!.council.councilMembers!.forEach((e) {
+          if (widget.store.account!.currentAddress == e) {
             isCouncil = true;
           }
         });

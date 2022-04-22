@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:dicolite/config/config.dart';
 import 'package:dicolite/generated/l10n.dart';
 import 'package:flutter/cupertino.dart';
@@ -129,7 +130,7 @@ class _CouncilState extends State<Council> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 title: dic.seats,
                 content:
-                    '${store.gov?.council.members!.length}/${store.gov?.council.desiredSeats}',
+                    '${store.gov?.council.members!.length}/${BigInt.parse(store.gov?.council.desiredSeats.toString() ?? "0").toString()}',
               ),
               InfoItem(
                 crossAxisAlignment: CrossAxisAlignment.center,

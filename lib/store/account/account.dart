@@ -178,7 +178,6 @@ abstract class _AccountStore with Store {
     int index = accountList.indexWhere((i) => i.pubKey == pubKey);
     if (index > -1) {
       await rootStore.localStorage.removeAccount(pubKey);
-    
     }
     await rootStore.localStorage.addAccount(acc);
     await rootStore.localStorage.setCurrentAccount(pubKey);

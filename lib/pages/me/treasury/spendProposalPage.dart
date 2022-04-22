@@ -169,8 +169,8 @@ class _SpendProposalPageState extends State<SpendProposalPage> {
     final Map? accInfoBeneficiary =
         widget.store.account!.addressIndexMap[beneficiary.address];
     bool isCouncil = false;
-    widget.store.gov!.council.members!.forEach((e) {
-      if (widget.store.account!.currentAddress == e[0]) {
+    widget.store.gov!.council.councilMembers!.forEach((e) {
+      if (widget.store.account!.currentAddress == e) {
         isCouncil = true;
       }
     });
