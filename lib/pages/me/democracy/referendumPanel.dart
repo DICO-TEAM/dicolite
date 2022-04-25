@@ -144,7 +144,7 @@ class ReferendumPanel extends StatelessWidget {
       ),
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[Text(dic.no), Text(dic.yes)],
+        children: <Widget>[Text(dic.nay), Text(dic.aye)],
       ),
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
