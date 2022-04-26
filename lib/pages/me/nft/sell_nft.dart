@@ -143,7 +143,7 @@ class _SellNftState extends State<SellNft> {
               Container(
                 padding: EdgeInsets.all(16),
                 child: RoundedButton(
-                  text: dic.sale,
+                  text: dic.sell,
                   onPressed: _enableBtn ? _handleSubmit : null,
                 ),
               )

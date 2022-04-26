@@ -223,7 +223,7 @@ class _ClaimNftState extends State<ClaimNft> {
                 _canClaimNftList.isEmpty
                     ? Expanded(
                         child: Text(
-                          dic.noNFT,
+                          dic.noQuota,
                           style:
                               Theme.of(context).textTheme.bodyText1!.copyWith(
                                     color: Color(0xFFFF3D00),
@@ -234,7 +234,7 @@ class _ClaimNftState extends State<ClaimNft> {
                     : _selectClass == null
                         ? Expanded(
                             child: Text(
-                              dic.noQuota,
+                              dic.noNFT,
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyText1!

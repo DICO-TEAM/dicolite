@@ -681,7 +681,8 @@ class _IcoParticipate extends State<IcoParticipate> {
                                 padding: EdgeInsets.all(15),
                                 child: Column(
                                   children: [
-                                    ico!.isMustKyc&&ico!.excludeArea.isNotEmpty
+                                    ico!.isMustKyc &&
+                                            ico!.excludeArea.isNotEmpty
                                         ? Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,

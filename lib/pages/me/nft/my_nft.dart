@@ -419,14 +419,14 @@ class _MyNftState extends State<MyNft> {
                                   ? RoundedButton(
                                       round: true,
                                       outlined: true,
-                                      text: dic.sale,
+                                      text: dic.sell,
                                       // foregroundColor: Colors.grey,
                                       onPressed: null,
                                     )
                                   : RoundedButton(
                                       round: true,
                                       outlined: true,
-                                      text: dic.sale,
+                                      text: dic.sell,
                                       onPressed: () {
                                         Navigator.of(context).pop();
 

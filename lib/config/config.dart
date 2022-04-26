@@ -353,6 +353,7 @@ class Config {
   ];
 
   static const String kicoNode = 'wss://rpc.kico.dico.io';
+  static const String kicoNode1 = 'wss://rpc.api.kico.dico.io';
   static const String testNode = 'wss://rpc.tico.dico.io';
   static const String nftImageUrl = 'https://crustipfs.xyz/ipfs/';
   static const Color themeColor = Color(0xFF00CEA6);

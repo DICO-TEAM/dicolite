@@ -40,8 +40,16 @@ EndpointData defaultNode = EndpointData.fromJson({
   'ss58': default_ss58_map['kico']
 });
 
+EndpointData kicoNode1 = EndpointData.fromJson({
+  'info': 'kico',
+  'text': 'KICO node',
+  'value': Config.kicoNode1,
+  'ss58': default_ss58_map['kico']
+});
+
 List<EndpointData> networkEndpoints = [
   defaultNode,
+  kicoNode1,
   testNode,
 ];
 
